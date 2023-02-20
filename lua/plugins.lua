@@ -63,6 +63,9 @@ return require('packer').startup(function(use)
     use { 'simrat39/rust-tools.nvim' }
     use { 'nvim-lua/plenary.nvim' }
     use { 'mfussenegger/nvim-dap' }
+    use "folke/neodev.nvim"
+    use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+    
     use { 'williamboman/mason.nvim' }
     use { 'williamboman/mason-lspconfig.nvim'}
     use { 'hrsh7th/nvim-cmp', config = [[require('config.nvim-cmp')]] }    
