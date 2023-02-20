@@ -35,9 +35,34 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    use {
+      'nvim-telescope/telescope.nvim', tag = '0.1.0',
+      -- or                            , branch = '0.1.x',
+      requires = { {'nvim-lua/plenary.nvim'} }
+    }
+
+    use {
+      "folke/trouble.nvim",
+      requires = "nvim-tree/nvim-web-devicons",
+      config = function()
+        require("trouble").setup {
+          -- use defaults for now
+        }
+      end
+    }
+
+    use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config =[[require('config.tree-sitter')]] })
+    use("nvim-treesitter/playground")
+    use("mbbill/undotree")
+    use("tpope/vim-fugitive")
+    use("nvim-treesitter/nvim-treesitter-context");
+
     -- custom plugins below
     use 'tanvirtin/monokai.nvim'
     use { 'neovim/nvim-lspconfig' } -- replaced by Mason
+    use { 'simrat39/rust-tools.nvim' }
+    use { 'nvim-lua/plenary.nvim' }
+    use { 'mfussenegger/nvim-dap' }
     use { 'williamboman/mason.nvim' }
     use { 'williamboman/mason-lspconfig.nvim'}
     use { 'hrsh7th/nvim-cmp', config = [[require('config.nvim-cmp')]] }    
