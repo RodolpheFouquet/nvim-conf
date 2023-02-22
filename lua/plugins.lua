@@ -76,6 +76,12 @@ return require('packer').startup(function(use)
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
 
+    use ({ 
+        'ray-x/go.nvim', 
+        run = ':lua require("go.install").update_all_sync()', 
+    }) 
+    use 'ray-x/guihua.lua' -- recommended if need floating window support
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then

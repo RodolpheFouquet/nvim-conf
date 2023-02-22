@@ -65,6 +65,10 @@ vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 -- Undotree config
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+  {silent = true, noremap = true}
+)
+
 -----------------
 -- Visual mode --
 -----------------
