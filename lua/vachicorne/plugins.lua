@@ -12,6 +12,7 @@ require("lazy").setup({
         "nvim-lua/plenary.nvim"
     }
   },
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
   {
     "folke/trouble.nvim",
     dependencies = {
@@ -100,7 +101,8 @@ require("lazy").setup({
     event = "InsertEnter",
     opts = {} -- this is equalent to setup({}) function
   },
-  { "nvim-tree/nvim-tree.lua" }
+  { "nvim-tree/nvim-tree.lua" },
+  { "lewis6991/gitsigns.nvim" }
 })
 
 
