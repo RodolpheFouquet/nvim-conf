@@ -43,8 +43,13 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 
 -- FloaTerm configuration
 vim.keymap.set('n', "<leader>ft", ":FloatermNew --name=myfloat --height=0.8 --width=0.7 --autoclose=2 fish <CR> ", { desc= "[F]loat [t]erminal"})
-vim.keymap.set('n', "t", ":FloatermToggle myfloat<CR>", { desc = "[T]erminal"})
+--vim.keymap.set('n', "t", ":FloatermToggle myfloat<CR>", { desc = "[T]erminal"})
 vim.keymap.set('t', "<Esc>", "<C-\\><C-n>:q<CR>")
 
 -- NvimTree configuration
 vim.keymap.set('n', "<leader>nt", ":NvimTreeToggle <CR> ", { desc= "[N]vim[T]ree"})
+
+-- Neotest
+vim.keymap.set('n', "<leader>tt", require('neotest').run.run, { desc= "[T]es[t] Nearest"})
+vim.keymap.set('n', "<leader>tf", function() require('neotest').run.run(vim.fn.expand("%")) end, { desc= "[T]est [f]ile"})
+vim.keymap.set('n', "<leader>td", function() require('neotest').run.run({ strategy = "dap" }) end, { desc= "[T]est [D]ebug"})
