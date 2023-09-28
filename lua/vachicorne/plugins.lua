@@ -8,11 +8,12 @@ require("lazy").setup({
   },
   {
     "nvim-telescope/telescope.nvim",
+    branch = '0.1.x',
     dependencies = {
         "nvim-lua/plenary.nvim"
     }
   },
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+  { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
   {
     "folke/trouble.nvim",
     dependencies = {
@@ -84,18 +85,23 @@ require("lazy").setup({
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
+      { "L3MON4D3/LuaSnip"},
+      { "saadparwaiz1/cmp_luasnip"},
       { "hrsh7th/cmp-buffer" },
       { "hrsh7th/cmp-path" },
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-nvim-lua" },
       { "hrsh7th/cmp-nvim-lua" },
       { "hrsh7th/cmp-nvim-lsp-signature-help" },
-      { "hrsh7th/cmp-vsnip"},
       { "hrsh7th/cmp-path" },
       { "hrsh7th/cmp-buffer"},
-      { "hrsh7th/vim-vsnip" },
-
-    }
+      { "rafamadriz/friendly-snippets"},
+      {
+        "Saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        config = true,
+      },
+    },
   },
   {
     "jonarrien/telescope-cmdline.nvim",
@@ -176,8 +182,8 @@ require("lazy").setup({
           -- see mason-nvim-dap README for more information
           handlers = {},
 
-          -- You'll need to check that you have the required things installed
-          -- online, please don't ask me how to install them :)
+          -- You"ll need to check that you have the required things installed
+          -- online, please don"t ask me how to install them :)
           ensure_installed = {
             "codelldb"
           },
@@ -187,7 +193,7 @@ require("lazy").setup({
 
     -- stylua: ignore
     keys = {
-      { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+      { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Breakpoint Condition" },
       { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
       { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
       { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
@@ -226,7 +232,35 @@ require("lazy").setup({
     opts = {} -- this is equalent to setup({}) function
   },
   { "nvim-tree/nvim-tree.lua" },
-  { "lewis6991/gitsigns.nvim" },
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      -- See `:help gitsigns.txt`
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+      on_attach = function(bufnr)
+        vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+
+        -- don't override the built-in and fugitive keymaps
+        local gs = package.loaded.gitsigns
+        vim.keymap.set({'n', 'v'}, ']c', function()
+          if vim.wo.diff then return ']c' end
+          vim.schedule(function() gs.next_hunk() end)
+          return '<Ignore>'
+        end, {expr=true, buffer = bufnr, desc = "Jump to next hunk"})
+        vim.keymap.set({'n', 'v'}, '[c', function()
+          if vim.wo.diff then return '[c' end
+          vim.schedule(function() gs.prev_hunk() end)
+          return '<Ignore>'
+        end, {expr=true, buffer = bufnr, desc = "Jump to previous hunk"})
+      end,
+    },
+  },
   {
     "nvim-neotest/neotest",
     dependencies = {
@@ -235,6 +269,7 @@ require("lazy").setup({
       "antoinemadec/FixCursorHold.nvim"
     }
   },
+  { "folke/neodev.nvim" },
   { "rouge8/neotest-rust" }
 })
 
