@@ -149,6 +149,7 @@ require("lazy").setup({
           end
         end,
       },
+      { 'leoluz/nvim-dap-go' },
 
       -- virtual text for the debugger
       {
@@ -185,7 +186,7 @@ require("lazy").setup({
           -- You"ll need to check that you have the required things installed
           -- online, please don"t ask me how to install them :)
           ensure_installed = {
-            "codelldb"
+            "codelldb", "delve"
           },
         },
       },
@@ -270,7 +271,22 @@ require("lazy").setup({
     }
   },
   { "folke/neodev.nvim" },
-  { "rouge8/neotest-rust" }
+  { "rouge8/neotest-rust" },
+  { "nvim-neotest/neotest-go" },
+  {
+    "ray-x/go.nvim",
+    dependencies = {  -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("go").setup()
+    end,
+    event = {"CmdlineEnter"},
+    ft = {"go", 'gomod'},
+    build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+  }
 })
 
 

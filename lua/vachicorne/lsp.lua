@@ -29,7 +29,7 @@ autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
 
 -- Treesitter Plugin Setup 
 require('nvim-treesitter.configs').setup {
-  ensure_installed = { "cpp", "rust", "toml", "lua", "vimdoc", "c", "ron" },
+  ensure_installed = { "cpp", "rust", "toml", "lua", "vimdoc", "c", "ron", "go", "python"},
   auto_install = true,
   highlight = {
     enable = true,
@@ -54,9 +54,6 @@ require("mason").setup({
     }
 })
 
-require("mason-lspconfig").setup {
-    ensure_installed = { "lua_ls", "rust_analyzer" },
-}
 
 --Set completeopt to have a better completion experience
 -- :help completeopt
@@ -164,12 +161,12 @@ end
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
+  clangd = {},
+  gopls = {},
+  pyright = {},
+  rust_analyzer = {},
   -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
     Lua = {
@@ -206,8 +203,8 @@ mason_lspconfig.setup_handlers {
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
+local cmp = require('cmp')
+local luasnip = require('luasnip')
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
@@ -252,3 +249,14 @@ cmp.setup {
     { name = 'crates' },
   },
 }
+
+
+-- setup go autoformat
+local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+   require('go.format').goimport()
+  end,
+  group = format_sync_grp,
+})

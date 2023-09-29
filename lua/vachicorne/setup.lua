@@ -6,7 +6,8 @@ require("telescope").load_extension("fzf")
 require("gitsigns").setup()
 require("neotest").setup({
   adapters = {
-    require("neotest-rust")
+    require("neotest-rust"),
+    require("neotest-go")
   }
 })
 
@@ -22,6 +23,7 @@ rt.setup({
       vim.keymap.set("n", "<Leader>oc", rt.open_cargo_toml.open_cargo_toml, { buffer = bufnr, desc = "[O]pen [C]argo"})
       vim.keymap.set("n", "<Leader>rr", rt.runnables.runnables, { buffer = bufnr, desc = "[R]ust [R]unnables"})
       vim.keymap.set("n", "<Leader>rd", rt.debuggables.debuggables, { buffer = bufnr, desc = "[R]ust [D]ebuggables"})
+      vim.keymap.set('n', "<leader>td", function() require('neotest').run.run({ strategy = "dap" }) end, { desc= "[T]est [D]ebug"})
       rt.inlay_hints.enable()
     end,
   },
@@ -30,3 +32,18 @@ rt.setup({
 require("trouble").setup({
   use_diagnostic_signs = true
 })
+
+require('dap-go').setup()
+
+vim.api.nvim_create_autocmd(
+    {
+        "BufNewFile",
+        "BufRead",
+    },
+    {
+        pattern = "*.go",
+        callback = function()
+          vim.keymap.set('n', "<leader>td", ":GoDebug --nearest <CR><CR>", { desc= "[T]est [D]ebug"})
+        end
+    }
+)

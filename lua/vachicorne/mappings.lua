@@ -52,7 +52,6 @@ vim.keymap.set('n', "<leader>nt", ":NvimTreeToggle <CR> ", { desc= "[N]vim[T]ree
 -- Neotest
 vim.keymap.set('n', "<leader>tt", require('neotest').run.run, { desc= "[T]es[t] Nearest"})
 vim.keymap.set('n', "<leader>tf", function() require('neotest').run.run(vim.fn.expand("%")) end, { desc= "[T]est [f]ile"})
-vim.keymap.set('n', "<leader>td", function() require('neotest').run.run({ strategy = "dap" }) end, { desc= "[T]est [D]ebug"})
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
