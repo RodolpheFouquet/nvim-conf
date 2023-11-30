@@ -4,9 +4,12 @@ require("todo-comments").setup()
 require("nvim-tree").setup()
 require("telescope").load_extension("fzf")
 require("gitsigns").setup()
+require("telescope").load_extension('cmdline')
 require("neotest").setup({
+  ft = { "go", "rust", "python" }, 
   adapters = {
     require("neotest-rust"),
+    require("neotest-python"),
     require("neotest-go")
   }
 })
@@ -47,3 +50,44 @@ vim.api.nvim_create_autocmd(
         end
     }
 )
+
+vim.api.nvim_create_autocmd(
+
+    {
+        "BufNewFile",
+        "BufRead",
+    },
+    {
+        pattern = "*.py",
+        callback = function()
+          vim.keymap.set('n', "<leader>td", function() require('neotest').run.run({ strategy = "dap" }) end, { desc= "[T]est [D]ebug"})
+        end
+    }
+)
+local dap = require('dap')
+dap.adapters.python = {
+  type = 'executable';
+  command = 'python';
+  args = { '-m', 'debugpy.adapter' };
+}
+
+
+dap.configurations.python = {
+  {
+    -- The first three options are required by nvim-dap
+    type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+    request = 'launch';
+    name = "Launch file";
+
+    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+    program = "${file}"; -- This configuration will launch the current file if used.
+    pythonPath = function()
+      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+      -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+      return os.getenv("VIRTUAL_ENV") .. "/bin/python" or '/usr/bin/env python'
+    end;
+  },
+}
+

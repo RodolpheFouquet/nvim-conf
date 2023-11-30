@@ -1,10 +1,8 @@
 require("lazy").setup({
   {
-    "navarasu/onedark.nvim",
-    config = function()
-        require("onedark").setup()
-        require("onedark").load()
-    end
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000 ,
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -27,7 +25,7 @@ require("lazy").setup({
     },
     opts = {
       options = {
-        theme = "onedark",
+        theme = "catppuccin",
         component_separators = "|",
         section_separators = { left = "", right = "" },
       },
@@ -44,6 +42,12 @@ require("lazy").setup({
         },
       },
     }
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
   },
   {
     "gbprod/yanky.nvim",
@@ -150,6 +154,7 @@ require("lazy").setup({
         end,
       },
       { 'leoluz/nvim-dap-go' },
+      { 'mfussenegger/nvim-dap-python' },
 
       -- virtual text for the debugger
       {
@@ -272,6 +277,7 @@ require("lazy").setup({
   },
   { "folke/neodev.nvim" },
   { "rouge8/neotest-rust" },
+  { "nvim-neotest/neotest-python" },
   { "nvim-neotest/neotest-go" },
   {
     "ray-x/go.nvim",
@@ -286,6 +292,18 @@ require("lazy").setup({
     event = {"CmdlineEnter"},
     ft = {"go", 'gomod'},
     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+  },
+  {
+    "David-Kunz/gen.nvim",
+    config = function()
+      vim.keymap.set('v', '<leader>]', ':Gen Enhance_Grammar_Spelling<CR>')
+    end
+  },
+  {
+    "andweeb/presence.nvim"
+  },
+  {
+    "OmniSharp/omnisharp-vim"
   }
 })
 
