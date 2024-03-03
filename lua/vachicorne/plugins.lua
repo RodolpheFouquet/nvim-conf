@@ -1,9 +1,5 @@
 require("lazy").setup({
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000 ,
-  },
+  { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true },
   {
     "nvim-telescope/telescope.nvim",
     branch = '0.1.x',
@@ -25,7 +21,7 @@ require("lazy").setup({
     },
     opts = {
       options = {
-        theme = "catppuccin",
+        theme = "gruvbox",
         component_separators = "|",
         section_separators = { left = "", right = "" },
       },
