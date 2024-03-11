@@ -29,7 +29,28 @@ autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
 
 -- Treesitter Plugin Setup 
 require('nvim-treesitter.configs').setup {
-  ensure_installed = { "cpp", "rust", "toml", "lua", "vimdoc", "c", "ron", "go", "python", "c_sharp"},
+  ensure_installed = { 
+    "cpp", 
+    "rust", 
+    "toml", 
+    "lua", 
+    "vimdoc", 
+    "c", 
+    "ron", 
+    "go", 
+    "python", 
+    "c_sharp", 
+    "javascript", 
+    "typescript", 
+    "slint", 
+    "css", 
+    "html", 
+    "fish", 
+    "json",
+    "yaml",
+    "tsx",
+    "markdown_inline"
+  },
   auto_install = true,
   highlight = {
     enable = true,
@@ -166,7 +187,7 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   omnisharp = {},
-  tsserver = {},
+  tsserver = { filetypes = "typescript", "typescriptreact", "typescript.tsx" },
   html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
