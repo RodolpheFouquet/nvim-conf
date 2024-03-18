@@ -4,8 +4,16 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     branch = '0.1.x',
     dependencies = {
-        "nvim-lua/plenary.nvim"
-    }
+        "nvim-lua/plenary.nvim",
+        'jonarrien/telescope-cmdline.nvim',
+    },
+    keys = {
+      { ':', '<cmd>Telescope cmdline<cr>', desc = 'Cmdline' }
+    },
+    config = function(_, opts)
+      require("telescope").setup(opts)
+      require("telescope").load_extension('cmdline')
+    end,
   },
   { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
   {
@@ -31,7 +39,8 @@ require("lazy").setup({
         },
         lualine_b = { "filename", "branch" },
         lualine_c = { "fileformat" },
-        lualine_x = {},
+        lualine_x = {
+        },
         lualine_y = { "filetype", "progress" },
         lualine_z = {
           { "location", separator = { right = "" }, left_padding = 2 },
@@ -102,14 +111,6 @@ require("lazy").setup({
         config = true,
       },
     },
-  },
-  {
-    "jonarrien/telescope-cmdline.nvim",
-    name = "cmdline",
-    opts = {},
-    keys = {
-      { ":", "<cmd>Telescope cmdline<cr>", desc = "Cmdline" }
-    }
   },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate"  },
   { "nvim-treesitter/playground" },
@@ -266,6 +267,7 @@ require("lazy").setup({
   {
     "nvim-neotest/neotest",
     dependencies = {
+      "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim"
@@ -311,7 +313,35 @@ require("lazy").setup({
         'nvim-tree/nvim-web-devicons'     -- optional
     }
   },
-  { "gleam-lang/gleam" }
+  {
+    "nomnivore/ollama.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+
+    -- All the user commands added by the plugin
+    cmd = { "Ollama", "OllamaModel", "OllamaServe", "OllamaServeStop" },
+
+    keys = {
+      -- Sample keybind for prompt menu. Note that the <c-u> is important for selections to work properly.
+      {
+        "<leader>oo",
+        ":<c-u>lua require('ollama').prompt()<cr>",
+        desc = "ollama prompt",
+        mode = { "n", "v" },
+      },
+
+      -- Sample keybind for direct prompting. Note that the <c-u> is important for selections to work properly.
+      {
+        "<leader>oG",
+        ":<c-u>lua require('ollama').prompt('Generate_Code')<cr>",
+        desc = "ollama Generate Code",
+        mode = { "n", "v" },
+      },
+    },
+
+  }
+--  { "gleam-lang/gleam" }
 })
 
 

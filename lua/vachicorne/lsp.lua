@@ -49,7 +49,8 @@ require('nvim-treesitter.configs').setup {
     "json",
     "yaml",
     "tsx",
-    "markdown_inline"
+    "markdown_inline",
+    "gleam"
   },
   auto_install = true,
   highlight = {
@@ -189,7 +190,6 @@ local servers = {
   omnisharp = {},
   tsserver = { filetypes = "typescript", "typescriptreact", "typescript.tsx" },
   html = { filetypes = { 'html', 'twig', 'hbs'} },
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
